@@ -44,18 +44,18 @@ public class VehiculeController {
     public void deletevehicule(@PathVariable Long id){
         vehiculeService.delete(id);
     }
-    @PutMapping("vehicule/{id}")
+    @PutMapping("vehicules/{id}")
     public VehiculeDTO uploadVehicule(@PathVariable Long id, @RequestBody VehiculeDTO vehiculeDTO){
         vehiculeDTO.setId(id);
        return vehiculeService.uploadvehicule(vehiculeDTO);
     }
-    @GetMapping("/vehicules/{registration}")
+    @GetMapping("/vehicules/registration/{registration}")
     public VehiculeDTO getByRegistration(@PathVariable String registration) {
         VehiculeDTO vehiculeDTO = vehiculeService.getByregistration(registration);
         return vehiculeDTO;
     }
 
-    @GetMapping("/vehicues/{rentalPrice}")
+    @GetMapping("/vehicules/rentalPrice{rentalPrice}")
     public VehiculeDTO getByPrice(@PathVariable double rentalPrice) {
         VehiculeDTO vehiculeDTO = vehiculeService.getByprice(rentalPrice);
        return vehiculeDTO;
