@@ -1,5 +1,5 @@
 package com.example.tpinf462.service.Impl;
-import com.example.tpinf462.domaine.Vehicule;
+import com.example.tpinf462.domaine.Voiture1;
 import com.example.tpinf462.dto.VehiculeDTO;
 import com.example.tpinf462.exception.RegistrationException;
 import com.example.tpinf462.exception.RentablePriceException;
@@ -26,9 +26,9 @@ public class VehiculeServiceImpl implements VehiculeService {
 
     @Override
     public VehiculeDTO create(VehiculeDTO vehiculeDTO) {
-        Vehicule vehicule=vehiculeMapper.mapToEntity(vehiculeDTO);
+        Voiture1 vehicule=vehiculeMapper.mapToEntity(vehiculeDTO);
 log.info(String.valueOf(vehicule));
-        Vehicule vehicule1 = vehiculeRepository.save(vehicule);
+        Voiture1 vehicule1 = vehiculeRepository.save(vehicule);
         return vehiculeMapper.mapToDTO(vehicule1);
     }
 /* public Optional<UtilisateurDTO> partialUpdate(UtilisateurDTO utilisateurDTO) {
@@ -59,14 +59,14 @@ log.info(String.valueOf(vehicule));
     @Override
     public VehiculeDTO uploadvehicule(VehiculeDTO vehiculeDTO) {
         logger.debug("Request to partially update Utilisateur : {}", vehiculeDTO);
-        Optional<Vehicule> vehicule=vehiculeRepository.findById(vehiculeDTO.getId());
+        Optional<Voiture1> vehicule=vehiculeRepository.findById(vehiculeDTO.getId());
         if(!vehicule.isPresent()){
             throw new RuntimeException("vehicule avec cette id n'existe pas ");
         }
 
-        Vehicule vehicule1=vehicule.get();
-        if(vehiculeDTO.getRegistratioNumber()!=null){
-            vehicule1.setRegistratioNumber(vehiculeDTO.getRegistratioNumber());
+        Voiture1 vehicule1=vehicule.get();
+        if(vehiculeDTO.getRegistratioNumberVehicule()!=null){
+            vehicule1.setRegistratioNumberVehicule(vehiculeDTO.getRegistratioNumberVehicule());
         }
         if(vehiculeDTO.getMake()!=null){
             vehicule1.setMake(vehiculeDTO.getMake());
@@ -74,12 +74,12 @@ log.info(String.valueOf(vehicule));
         if(vehiculeDTO.getModel()!=null){
             vehicule1.setModel(vehiculeDTO.getModel());
         }
-        if(vehiculeDTO.getYear()!=null){
-            vehicule1.setYear(vehiculeDTO.getYear());
+        if(vehiculeDTO.getYeaVehicule()!=null){
+            vehicule1.setYeaVehicule(vehiculeDTO.getYeaVehicule());
         }
 
         log.info(String.valueOf(vehicule));
-        Vehicule vehicule2 = vehiculeRepository.save(vehicule1);
+        Voiture1 vehicule2 = vehiculeRepository.save(vehicule1);
         return vehiculeMapper.mapToDTO(vehicule2);
     }
 
@@ -90,20 +90,20 @@ this.vehiculeRepository.deleteById(id);
 
     @Override
     public List<VehiculeDTO> findALL() {
-        List<Vehicule> vehicules= vehiculeRepository.findAll();
+        List<Voiture1> vehicules= vehiculeRepository.findAll();
 
         return vehicules.stream().map(vehicule -> vehiculeMapper.mapToDTO(vehicule)).collect(Collectors.toList());
     }
 
     @Override
     public VehiculeDTO getByregistration(String registration) {
-        Vehicule vehicule = vehiculeRepository.findByRegistratioNumber(registration).orElseThrow(()->new RegistrationException("Vehicle whitch this registration not found"))   ;
+        Voiture1 vehicule = vehiculeRepository.findByRegistratioNumberVehicule(registration).orElseThrow(()->new RegistrationException("Vehicle whitch this registration not found"))   ;
         return vehiculeMapper.mapToDTO(vehicule);
     }
 
     @Override
     public VehiculeDTO getByprice(double rentalPrice) {
-        Vehicule vehicule=vehiculeRepository.findByRentalPrice(rentalPrice).orElseThrow(()->new RentablePriceException("vehicule whith this rentalPrice not found"));
+        Voiture1 vehicule=vehiculeRepository.findByRentalPriceVehicule(rentalPrice).orElseThrow(()->new RentablePriceException("vehicule whith this rentalPrice not found"));
         return vehiculeMapper.mapToDTO(vehicule);
     }
 

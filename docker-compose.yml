@@ -1,34 +1,6 @@
-
-
-version: '3.1'
-
+version: '3'
 services:
-
-
-  app:
-    # container_name: spring-app
-    image: springboot-app
-    restart: always
+  springboot-app:
     build: .
     ports:
-      - 8888:8888
-    depends_on:
-      - db
-  db:
-    container_name: mariadb-container
-    image: mariadb:11.0.2-jammy
-    restart: always
-    environment:
-      MARIADB_ROOT_PASSWORD: example
-    ports:
-      - 3309:3306
-
-      # db:
-  #  image: mysql:8
-   # environment:
-    #  MYSQL_ROOT_PASSWORD: rootpassword
-     # MYSQL_DATABASE: mydatabase
-      #MYSQL_USER: user
-      #MYSQL_PASSWORD: password
-    #ports:
-     # - "3306:3306"
+      - "8081:8080"

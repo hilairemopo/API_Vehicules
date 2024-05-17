@@ -1,19 +1,31 @@
-# Utiliser une image de base officielle de Java 17
-FROM openjdk:17-jdk-slim
+# Use Maven Docker image for the build stage
+FROM maven:3-eclipse-temurin-17-alpine as build
 
-# Ajouter des labels pour les métadonnées
-LABEL maintainer="tagnehilaire90@gmail.com"
-LABEL version="1.0"
-LABEL description="Cette image contient une application Spring Boot utilisant Java 17"
+# Set working directory in the Docker image
+WORKDIR /app
 
-# Définir l'argument pour la version de l'application
-ARG JAR_FILE=target/*.jar
+# Copy only the POM file to install dependencies
+COPY pom.xml .
+COPY src ./src
+# Install project dependencies
+RUN mvn clean package -Dmaven.test.skip=true
 
-# Copier le fichier JAR généré dans l'image Docker
-COPY ${JAR_FILE} app.jar
+# Copy the rest of the application source code
 
-# Exposer le port que l'application Spring Boot utilise
-EXPOSE 8888
 
-# Commande pour exécuter l'application Spring Boot
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+# Second stage: Use smaller OpenJDK image for runtime
+FROM eclipse-temurin:17.0.8.1_1-jdk-focal
+
+
+# Set working directory in the Docker image
+WORKDIR /app
+
+# Copy the compiled JAR file from the build stage
+COPY --from=build /app/target/tpinf462-0.0.1-SNAPSHOT.jar ./app.jar
+
+# Expose the port used by the Spring Boot application
+EXPOSE 8080
+
+# Command to run the Spring Boot application
+ENTRYPOINT ["java", "-jar", "app.jar"]
