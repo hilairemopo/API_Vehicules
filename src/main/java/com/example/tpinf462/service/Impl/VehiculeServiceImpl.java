@@ -107,4 +107,10 @@ this.vehiculeRepository.deleteById(id);
         return vehiculeMapper.mapToDTO(vehicule);
     }
 
+    @Override
+    public Optional<VehiculeDTO> getById(Long id) {
+        Voiture1 voiture1=vehiculeRepository.findById(id).orElseThrow(()->new RuntimeException("le vehicule n'existe pas"));
+        return Optional.ofNullable(vehiculeMapper.mapToDTO(voiture1));
+    }
+
 }

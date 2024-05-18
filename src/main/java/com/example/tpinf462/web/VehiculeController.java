@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -49,6 +50,11 @@ public class VehiculeController {
     public VehiculeDTO getByPrice(@PathVariable double rentalPrice) {
         VehiculeDTO vehiculeDTO = vehiculeService.getByprice(rentalPrice);
        return vehiculeDTO;
+    }
+    @GetMapping("/vehiciles/{id}")
+    public Optional<VehiculeDTO> grtById(@PathVariable Long id){
+        Optional<VehiculeDTO> vehiculeDTO=vehiculeService.getById(id);
+        return vehiculeDTO;
     }
 
 }
